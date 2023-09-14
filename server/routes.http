@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----kawabanga
+
+------kawabanga
+Content-Disposition: form-data; name="file"; filename="auto-homenagem.mp3"
+Content-Type: audio/mpeg
+
+< ./auto-homenagem.mp3
+------kawabanga--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/c0867ec4-0c16-40ce-ae32-d824cd773414/transcription
+Content-Type: application/json
+
+{
+  "prompt": "divórcio, homenagem"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "c0867ec4-0c16-40ce-ae32-d824cd773414",
+  "temperature": 0.5,
+  "prompt": "Gere um resumo sucinto da transcrição do vídeo informada a seguir: ''' {transcription} '''"
+}
